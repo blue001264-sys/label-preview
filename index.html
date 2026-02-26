@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한글표시사항 생성기</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">한글표시사항 생성기</div>
+      <div class="actions">
+        <button id="btnNew" class="btn">새 제품</button>
+        <label class="btn ghost">
+          JSON 불러오기
+          <input id="fileImport" type="file" accept="application/json" hidden />
+        </label>
+        <button id="btnExportJson" class="btn ghost">JSON 저장</button>
+        <button id="btnExportPng" class="btn primary">PNG 저장</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel">
+        <h2>입력</h2>
+
+        <div class="form">
+          <div class="row"><label>제품명</label><input id="제품명" type="text" /></div>
+          <div class="row"><label>식품유형</label><input id="식품유형" type="text" /></div>
+          <div class="row"><label>중량</label><input id="중량" type="text" /></div>
+          <div class="row"><label>제조원</label><input id="제조원" type="text" /></div>
+          <div class="row"><label>원재료명</label><textarea id="원재료명" rows="4"></textarea></div>
+          <div class="row"><label>알레르기</label><textarea id="알레르기" rows="2"></textarea></div>
+          <div class="row"><label>보관방법</label><input id="보관방법" type="text" /></div>
+
+          <div class="hr"></div>
+
+          <div class="row"><label>총내용량</label><input id="총내용량" type="text" /></div>
+          <div class="row"><label>기준량</label><input id="기준량" type="text" /></div>
+          <div class="row"><label>열량</label><input id="열량" type="text" /></div>
+
+          <div class="nutri">
+            <div class="nutriHead">
+              <h3>영양성분</h3>
+              <button id="btnAddNutri" class="btn small">+ 항목 추가</button>
+            </div>
+
+            <div class="nutriTableWrap">
+              <table class="nutriInput">
+                <thead>
+                  <tr><th>항목명</th><th>함량</th><th>%</th><th></th></tr>
+                </thead>
+                <tbody id="nutriRows"></tbody>
+              </table>
+            </div>
+            <p class="hint">%가 없으면 비워도 됨</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>미리보기</h2>
+        <div class="previewWrap"><div id="labelPreview"></div></div>
+      </section>
+    </main>
+  </div>
+  <script defer src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+  <script defer src="./app.js"></script>
+</body>
+</html>
