@@ -1,0 +1,328 @@
+:root{
+  --bg:#0b0d12; --panel:#111521; --line:#20283a; --text:#e7eaf2; --muted:#aab2c7;
+  --btn:#1b2336; --btn2:#202a40; --primary:#3b82f6;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:system-ui,-apple-system,"Pretendard","Malgun Gothic",Segoe UI,Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,#07090f 0%,#0b0d12 100%);color:var(--text);}
+.topbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;border-bottom:1px solid var(--line);background:rgba(11,13,18,.85);backdrop-filter:blur(10px);}
+.brand{font-weight:800;}
+.actions{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{border:1px solid var(--line);background:var(--btn);color:var(--text);padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700;}
+.btn:hover{background:var(--btn2);}
+.btn.primary{background:var(--primary);border-color:transparent;}
+.btn.ghost{background:transparent;}
+.btn.small{padding:8px 10px;font-size:13px;border-radius:9px;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px;}
+@media (max-width:1100px){.grid{grid-template-columns:1fr;}}
+.panel{background:rgba(17,21,33,.9);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.panel h2{margin:6px 0 12px;font-size:16px;color:var(--muted);font-weight:800;}
+.form{display:flex;flex-direction:column;gap:10px;}
+.row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:start;}
+.row label{color:var(--muted);padding-top:10px;font-weight:800;}
+input,textarea{width:100%;background:#0e1320;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;outline:none;}
+textarea{resize:vertical;}
+.hr{height:1px;background:var(--line);margin:6px 0;}
+.previewWrap{background:#0e1320;border:1px solid var(--line);border-radius:14px;padding:14px;overflow:auto;}
+#labelPreview{display:flex;justify-content:center;}
+.label{width:900px;padding:24px 24px 16px;background:#fff;color:#111;font-family:"Pretendard", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+.labelTitle{text-align:center;font-weight:900;font-size:44px;margin:8px 0 16px;letter-spacing:-1px;}
+.box{border:2px solid #111;}
+.box table{border-collapse:collapse;width:100%;table-layout:fixed;}
+.main td{border-top:1px solid #111;padding:10px 12px;vertical-align:top;font-size:20px;line-height:1.35;}
+.main tr:first-child td{border-top:none;}
+.cellLabel{width:180px;background:#e9eaee;font-weight:800;text-align:center;}
+.cellValue{background:#fff;}
+.allergen{font-weight:900;}
+.nutriHeadRow td{border-top:2px solid #111;padding:10px 12px;font-size:20px;}
+.nutriHeadRow .cellLabel{background:#e9eaee;font-weight:900;}
+.nutriHeadRow .cellValue{text-align:right;font-weight:800;}
+.nutriTable td{border-top:1px solid #111;padding:10px 10px;font-size:18px;}
+.nLabel{background:#e9eaee;font-weight:900;text-align:center;}
+.nVal{background:#fff;font-weight:800;text-align:center;}
+.nPct{background:#e9eaee;font-weight:900;text-align:center;}
+
+.nutriTableWrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+.nutriInput{width:100%;border-collapse:collapse;background:#0e1320;}
+.nutriInput th,.nutriInput td{border-bottom:1px solid var(--line);padding:8px;font-size:13px;}
+.nutriInput th{color:var(--muted);text-align:left;font-weight:800;}
+.nutriInput td:last-child{width:60px;}
+.nutriInput input{padding:8px 10px;border-radius:8px;}
+.hint{color:var(--muted);font-size:12px;margin:10px 0 0;}
+/* ===== PS(1번) 스타일로 맞춤: 860px, 외곽테두리 제거, 알레르기 검정바 ===== */
+
+.label{
+  width: 860px;
+  padding: 34px 0 18px; /* 좌우 0: 표 선이 끝까지 가게 */
+  background:#fff;
+  color:#111;
+  font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;
+  font-weight:400;
+}
+
+.labelTitle{
+  text-align:center;
+  font-weight:800;
+  font-size:46px;
+  margin: 0 0 18px;
+  letter-spacing:-1px;
+}
+
+.box{ border:none; } /* 외곽 검은 박스 제거 */
+
+.main td{
+  border-top:none;
+  border-bottom:1px solid #111; /* 포토샵처럼 가로선 위주 */
+  padding: 12px 16px;   /* 위아래 12, 좌우 16 */
+  vertical-align:middle;
+  font-size:18px;
+  line-height: 1.5;
+}
+
+.cellLabel{
+  width: 222px;             /* 포토샵 비율 */
+  background:#e7e7ef;
+  font-weight:600;
+  text-align:center;
+}
+
+.cellValue{
+  background:#fff;
+  font-weight:400;
+}
+
+/* 알레르기: 검정 바 + 흰 글씨 (포토샵처럼) */
+.cellValue.allergen{
+  background:#111;
+  color:#fff;
+  font-weight:700;
+}
+
+/* 영양정보 헤더 줄 (포토샵처럼: 위는 두껍게, 아래는 얇게) */
+.nutriHeadRow td{
+  border-top:2px solid #111;
+  border-bottom:1px solid #111;
+  padding: 9px 12px;
+  font-size:18px;
+}
+
+.nutriHeadRow .cellValue{
+  text-align:right;
+  font-weight:400; /* 코딩버전은 너무 굵음 -> 보통으로 */
+  padding: 12px 16px;
+  line-height: 1.4;
+}
+
+/* 영양성분 표 */
+.nutriTable{ table-layout:fixed; width:100%; border-collapse:collapse; }
+
+.nutriTable td{
+  border-top:none;
+  border-bottom:1px solid #111;
+   padding: 11px 12px;
+  font-size:18px;
+  line-height: 1.45;
+}
+
+.nLabel{ background:#e7e7ef; font-weight:600; text-align:center; }
+.nVal{ background:#fff; font-weight:400; text-align:center; } /* 값은 얇게 */
+.nPct{ background:#e7e7ef; font-weight:400; text-align:center; } /* %도 얇게 */
+
+/* 열 너비: %칸을 좁혀서 포토샵 비율로 */
+.nutriTable td:nth-child(1),
+.nutriTable td:nth-child(4),
+.nutriTable td:nth-child(7){ width:16%; }
+
+.nutriTable td:nth-child(2),
+.nutriTable td:nth-child(5),
+.nutriTable td:nth-child(8){ width:10%; }
+
+.nutriTable td:nth-child(3),
+.nutriTable td:nth-child(6),
+.nutriTable td:nth-child(9){ width:7%; }
+
+
+
+/* 혹시 nth-child로 %칸을 회색 처리해놨으면 이것도 같이 흰색 강제 */
+.nutriTable td:nth-child(3),
+.nutriTable td:nth-child(6),
+.nutriTable td:nth-child(9){
+  background:#fff !important;
+}
+.label{ position:relative; }
+
+.watermark{
+  position:absolute;
+  left:50%;
+  top:55%;
+  transform:translate(-50%,-50%) rotate(-12deg);
+  font-size:120px;
+  font-weight:800;
+  letter-spacing:6px;
+  color:#000;
+  opacity:0.08;
+  z-index:10;          /* ← 핵심: 위로 */
+  pointer-events:none;
+  white-space:nowrap;
+}
+/* 텍스트 답답함 완화 */
+.main td{
+  padding: 12px 16px !important;
+  line-height: 1.5 !important;
+}
+
+.nutriHeadRow td{
+  padding: 12px 16px !important;
+  line-height: 1.4 !important;
+}
+
+.nutriTable td{
+  padding: 11px 12px !important;
+  line-height: 1.45 !important;
+}
+
+.cellLabel, .cellValue, .nLabel, .nVal, .nPct{
+  letter-spacing: 0.2px;
+}
+
+.labelTitle{
+  margin-bottom: 22px !important;
+  line-height: 1.2;
+}
+
+
+
+/* ===== 표 텍스트 간격/여백 개선 ===== */
+
+/* 혹시 기존에 고정 높이 준 게 있으면 해제 */
+.main tr,
+.main td,
+.nutriHeadRow td,
+.nutriTable tr,
+.nutriTable td{
+  height: auto !important;
+}
+
+/* 메인표(제품명~보관방법) */
+.main .cellLabel,
+.main .cellValue{
+  padding: 14px 16px !important;   /* 위아래, 좌우 */
+  line-height: 1.5 !important;
+  vertical-align: middle !important;
+}
+
+/* 원재료명/알레르기처럼 줄 많은 칸은 줄간격 더 줌 */
+.main .cellValue{
+  line-height: 1.65 !important;
+}
+
+/* 영양정보 헤더줄(영양정보 | 총 내용량...) */
+.nutriHeadRow .cellLabel,
+.nutriHeadRow .cellValue{
+  padding: 12px 16px !important;
+  line-height: 1.45 !important;
+  vertical-align: middle !important;
+}
+
+/* 영양성분 표 (나트륨/지방/퍼센트) */
+.nutriTable td{
+  padding: 12px 12px !important;
+  line-height: 1.45 !important;
+  vertical-align: middle !important;
+}
+
+/* 숫자/글자 자간 아주 살짝 */
+.cellLabel, .cellValue, .nLabel, .nVal, .nPct{
+  letter-spacing: 0.15px !important;
+}
+
+/* ===== 안내문 겹침 해결 ===== */
+
+/* 라벨/박스가 내용만큼 늘어나게 */
+.label{
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding-bottom: 10px !important;
+}
+
+.box{
+  overflow: visible !important;
+  margin-bottom: 12px !important;
+}
+
+/* note가 절대배치/음수마진이면 풀기 */
+
+.label .box{
+  margin-bottom: 12px !important;
+}
+
+.nutriTable{
+  margin-bottom: 0 !important;
+}
+
+/* ===== 안내문 겹침 강제 해결 ===== */
+
+/* 라벨 전체는 내용만큼 늘어나야 함 */
+.label{
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding-bottom: 12px !important;
+}
+
+/* 표 박스도 잘리지 않게 */
+.box{
+  display: block !important;
+  overflow: visible !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 0 !important;
+}
+
+/* 영양표 아래 여백 확보 */
+.nutriTable{
+  margin-bottom: 0 !important;
+}
+
+/* 안내문은 무조건 일반 흐름으로 */
+.note{
+  position: static !important;
+  inset: auto !important;         /* top/right/bottom/left 초기화 */
+  transform: none !important;
+  float: none !important;
+  clear: both !important;
+  display: block !important;
+
+  margin: 16px 0 0 0 !important;  /* 표와 간격 */
+  padding: 0 !important;
+
+  line-height: 1.4 !important;
+  text-align: center !important;
+  z-index: auto !important;
+}
+
+/* 혹시 기존에 tr/td 높이 고정한 게 있으면 해제 */
+.main tr, .main td, .nutriTable tr, .nutriTable td, .nutriHeadRow td{
+  height: auto !important;
+}
+.label{ position: relative; }
+
+.watermark{
+  position: absolute;
+  right: 10px;
+  top: 360px;
+  font-size: 110px;
+  font-weight: 700;
+  color: rgba(0,0,0,0.10);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.labelTitle, .box, .note{
+  position: relative;
+  z-index: 1;
+}
