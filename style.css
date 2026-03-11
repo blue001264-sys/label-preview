@@ -153,20 +153,7 @@ textarea{resize:vertical;}
 }
 .label{ position:relative; }
 
-.watermark{
-  position:absolute;
-  left:50%;
-  top:55%;
-  transform:translate(-50%,-50%) rotate(-12deg);
-  font-size:120px;
-  font-weight:800;
-  letter-spacing:6px;
-  color:#000;
-  opacity:0.08;
-  z-index:10;          /* ← 핵심: 위로 */
-  pointer-events:none;
-  white-space:nowrap;
-}
+
 /* 텍스트 답답함 완화 */
 .main td{
   padding: 12px 16px !important;
