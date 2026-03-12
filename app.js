@@ -10,20 +10,70 @@ window.onerror = (m, s, l, c, e) => {
 
 const $ = (id) => document.getElementById(id);
 
-const fields = ["제품명","식품유형","중량","제조원","원재료명","알레르기","보관방법","총내용량","기준량","열량"];
+const fields = [
+  "제품명",
+  "식품유형",
+  "중량",
+  "제조원",
+  "원재료명",
+  "알레르기",
+  "보관방법",
+  "총내용량",
+  "기준량",
+  "열량"
+];
+
+// 고정 영양성분 순서
+const fixedNutritionNames = [
+  "나트륨",
+  "탄수화물",
+  "당류",
+  "지방",
+  "트랜스지방",
+  "포화지방",
+  "콜레스테롤",
+  "단백질"
+];
 
 const defaultState = () => ({
-  제품명: "", 식품유형: "", 중량: "", 제조원: "",
-  원재료명: "", 알레르기: "", 보관방법: "",
-  총내용량: "", 기준량: "", 열량: "",
-  영양성분: [
-    { name: "나트륨", amount: "", percent: "" },
-    { name: "지방", amount: "", percent: "" },
-    { name: "콜레스테롤", amount: "", percent: "" },
-  ],
+  제품명: "",
+  식품유형: "",
+  중량: "",
+  제조원: "",
+  원재료명: "",
+  알레르기: "",
+  보관방법: "",
+  총내용량: "",
+  기준량: "",
+  열량: "",
+  영양성분: fixedNutritionNames.map((name) => ({
+    name,
+    amount: "",
+    percent: ""
+  })),
 });
 
-let state = loadState() ?? defaultState();
+function normalizeState(s) {
+  const base = defaultState();
+  const next = { ...base, ...(s || {}) };
+
+  const current = Array.isArray(next.영양성분) ? next.영양성분 : [];
+
+  const fixedRows = fixedNutritionNames.map((name) => {
+    const found = current.find((x) => String(x.name || "").trim() === name);
+    return found || { name, amount: "", percent: "" };
+  });
+
+  const extraRows = current.filter((x) => {
+    const n = String(x.name || "").trim();
+    return n && !fixedNutritionNames.includes(n);
+  });
+
+  next.영양성분 = [...fixedRows, ...extraRows];
+  return next;
+}
+
+let state = normalizeState(loadState() ?? defaultState());
 
 function saveState() {
   localStorage.setItem("label_state_v1", JSON.stringify(state));
@@ -40,10 +90,10 @@ function loadState() {
 
 function esc(s) {
   return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;");
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
 function chunk3(items) {
@@ -93,7 +143,9 @@ function fmtNutriPercent(percent) {
 }
 
 function renderPreview() {
-  const rows = chunk3(state.영양성분.filter(x => (x.name || x.amount || x.percent)));
+  const rows = chunk3(
+    state.영양성분.filter((x) => (x.name || x.amount || x.percent))
+  );
 
   const mainRows = [
     ["제품명", state.제품명],
@@ -108,13 +160,13 @@ function renderPreview() {
   const mainHtml = mainRows.map(([k, v, cls]) => `
     <tr>
       <td class="cellLabel">${esc(k)}</td>
-      <td class="cellValue ${cls || ""}">${esc(v).replaceAll("\n","<br>")}</td>
+      <td class="cellValue ${cls || ""}">${esc(v).replaceAll("\n", "<br>")}</td>
     </tr>
   `).join("");
 
-  const nutriHtml = rows.map(r => `
+  const nutriHtml = rows.map((r) => `
     <tr>
-      ${r.map(item => item ? `
+      ${r.map((item) => item ? `
         <td class="nLabel">${esc(item.name)}</td>
         <td class="nVal">${esc(fmtNutriAmount(item.name, item.amount))}</td>
         <td class="nPct">${esc(fmtNutriPercent(item.percent))}</td>
@@ -181,7 +233,6 @@ function renderPreview() {
       userSelect: "none",
     });
   }
-  
 }
 
 function renderNutriInputs() {
@@ -189,17 +240,40 @@ function renderNutriInputs() {
   tbody.innerHTML = "";
 
   state.영양성분.forEach((item, idx) => {
+    const isFixed = fixedNutritionNames.includes(String(item.name || "").trim());
+
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><input data-k="name" data-idx="${idx}" value="${esc(item.name)}" /></td>
-      <td><input data-k="amount" data-idx="${idx}" value="${esc(item.amount)}" /></td>
-      <td><input data-k="percent" data-idx="${idx}" value="${esc(item.percent)}" /></td>
-      <td><button class="btn small ghost" data-del="${idx}">삭제</button></td>
+      <td>
+        <input
+          data-k="name"
+          data-idx="${idx}"
+          value="${esc(item.name)}"
+          ${isFixed ? "readonly" : ""}
+        />
+      </td>
+      <td>
+        <input
+          data-k="amount"
+          data-idx="${idx}"
+          value="${esc(item.amount)}"
+        />
+      </td>
+      <td>
+        <input
+          data-k="percent"
+          data-idx="${idx}"
+          value="${esc(item.percent)}"
+        />
+      </td>
+      <td>
+        ${isFixed ? "" : `<button class="btn small ghost" data-del="${idx}">삭제</button>`}
+      </td>
     `;
     tbody.appendChild(tr);
   });
 
-  tbody.querySelectorAll("input").forEach(inp => {
+  tbody.querySelectorAll("input").forEach((inp) => {
     inp.addEventListener("input", (e) => {
       const idx = Number(e.target.dataset.idx);
       const k = e.target.dataset.k;
@@ -209,7 +283,7 @@ function renderNutriInputs() {
     });
   });
 
-  tbody.querySelectorAll("button[data-del]").forEach(btn => {
+  tbody.querySelectorAll("button[data-del]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const idx = Number(btn.dataset.del);
       state.영양성분.splice(idx, 1);
@@ -221,8 +295,10 @@ function renderNutriInputs() {
 }
 
 function bindFieldInputs() {
-  fields.forEach(f => {
+  fields.forEach((f) => {
     const el = $(f);
+    if (!el) return;
+
     el.value = state[f] ?? "";
     el.addEventListener("input", () => {
       state[f] = el.value;
@@ -233,7 +309,7 @@ function bindFieldInputs() {
 }
 
 $("btnAddNutri").addEventListener("click", () => {
-  state.영양성분.push({ name:"", amount:"", percent:"" });
+  state.영양성분.push({ name: "", amount: "", percent: "" });
   saveState();
   renderNutriInputs();
   renderPreview();
