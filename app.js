@@ -142,6 +142,19 @@ function fmtNutriPercent(percent) {
   return raw;
 }
 
+function sanitizeFileName(name) {
+  return String(name ?? "")
+    .trim()
+    .replace(/[\\/:*?"<>|]/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\.+$/g, "");
+}
+
+function getDownloadFileName() {
+  const productName = sanitizeFileName(state.제품명);
+  return (productName || "표시사항") + ".png";
+}
+
 function renderPreview() {
   const rows = chunk3(
     state.영양성분.filter((x) => (x.name || x.amount || x.percent))
@@ -360,6 +373,6 @@ async function downloadPng860() {
 
   const a = document.createElement("a");
   a.href = out.toDataURL("image/png");
-  a.download = "표시사항.png";
+  a.download = getDownloadFileName();
   a.click();
 }
